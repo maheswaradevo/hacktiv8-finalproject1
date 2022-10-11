@@ -50,4 +50,3 @@ func UpdateTodoResponses(t models.Todo) *TodoResponse {
 		Priority:  t.Priority,
 	}
 }
-
