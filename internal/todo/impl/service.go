@@ -60,3 +60,18 @@ func (t TodoServiceImpl) GetTodoByID(ctx context.Context, id uint64) (*dto.TodoR
 
 	return dto.CreateTodoByIDResponses(res), nil
 }
+
+func (t TodoServiceImpl) UpdateData(ctx context.Context, id uint64, data *dto.TodoRequest) (*dto.TodoResponse, error) {
+	check, err := t.repo.CheckTodoByID(ctx, id)
+	if !check {
+		log.Printf("[GetTodoByID] there's no todo with id: %v", id)
+		return nil, err
+	}
+	res, err := t.repo.UpdateData(ctx, id, data)
+	if err != nil {
+		log.Printf("[GetTodoByID] failed to get todo by id, id => %v, err => %v", id, err)
+		return nil, err
+	}
+
+	return dto.UpdateTodoResponses(res), nil
+}

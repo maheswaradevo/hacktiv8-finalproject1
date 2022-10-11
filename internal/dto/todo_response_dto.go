@@ -40,3 +40,13 @@ func CreateTodoByIDResponses(t models.Todo) *TodoResponse {
 		Priority:  t.Priority,
 	}
 }
+
+func UpdateTodoResponses(t models.Todo) *TodoResponse {
+	return &TodoResponse{
+		ID:        t.ID,
+		Title:     t.Title,
+		Details:   t.Details,
+		Completed: t.Completed,
+		Priority:  t.Priority,
+	}
+}

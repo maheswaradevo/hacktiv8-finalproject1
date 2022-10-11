@@ -14,6 +14,7 @@ type TodoRepository interface {
 	GetAllData(ctx context.Context) (models.Todos, error)
 	CreateNewData(ctx context.Context, reqData *dto.TodoRequest) error
 	GetTodoByID(ctx context.Context, id uint64) (models.Todo, error)
+	UpdateData(ctx context.Context, id uint64, reqData *dto.TodoRequest) (models.Todo, error)
 	CheckTodoByID(ctx context.Context, id uint64) (bool, error)
 	CheckTodo(ctx context.Context) (bool, error)
 }
@@ -80,4 +81,24 @@ func (t TodoRepositoryImpl) CheckTodo(ctx context.Context) (bool, error) {
 	}
 	errDataNotExists := errors.New("data doesn't exists")
 	return false, errDataNotExists
+}
+
+func (t TodoRepositoryImpl) UpdateData(ctx context.Context, id uint64, reqData *dto.TodoRequest) (models.Todo, error) {
+	var todoByID models.Todo
+	for _, todo := range models.TodoList {
+		if todo.ID == id {
+			todoByID = *reqData.ToEntity()
+			todoByID.ID = id
+			todo.Title = reqData.Title
+			todo.Details = reqData.Details
+			todo.Completed = reqData.Completed
+			todo.Priority = reqData.Priority
+		}
+	}
+	err := utils.WriteToJSON(models.TodoList, t.filename)
+	if err != nil {
+		log.Printf("[UpdateData] failed to writing to JSON: %v", err)
+		return models.Todo{}, err
+	}
+	return todoByID, nil
 }
