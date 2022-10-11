@@ -16,7 +16,7 @@ func CreateTodoResponse(t models.Todo) TodoResponse {
 		ID:        t.ID,
 		Title:     t.Details,
 		Details:   t.Details,
-		Completed: false,
+		Completed: t.Completed,
 		Priority:  t.Priority,
 	}
 }
@@ -29,4 +29,14 @@ func CreateTodoResponses(t models.Todos) *TodoResponses {
 		todoResponses = append(todoResponses, todo)
 	}
 	return &todoResponses
+}
+
+func CreateTodoByIDResponses(t models.Todo) *TodoResponse {
+	return &TodoResponse{
+		ID:        t.ID,
+		Title:     t.Title,
+		Details:   t.Details,
+		Completed: t.Completed,
+		Priority:  t.Priority,
+	}
 }
