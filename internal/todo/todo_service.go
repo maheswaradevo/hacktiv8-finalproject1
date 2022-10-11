@@ -10,6 +10,7 @@ import (
 type TodoService interface {
 	GetAllData(ctx context.Context) (*dto.TodoResponses, error)
 	CreateNewData(ctx context.Context, data *dto.TodoRequest) error
+	GetTodoByID(ctx context.Context, id uint64) (*dto.TodoResponse, error)
 }
 
 func ProvideTodoService(filename string) TodoService {

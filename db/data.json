@@ -1,16 +1,1 @@
-[
-  {
-    "ID": 1,
-    "Title": "Test1",
-    "Details": "Test2",
-    "Completed": false,
-    "Priority": 1
-  },
-  {
-    "ID": 2,
-    "Title": "Test2",
-    "Details": "Test2",
-    "Completed": false,
-    "Priority": 1
-  }
-]
+{"ID":1,"Title":"Test1","Details":"Test2","Completed":false,"Priority":1}

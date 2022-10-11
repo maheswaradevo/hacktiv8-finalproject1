@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/maheswaradevo/hacktiv8-finalproject1/internal/constant"
@@ -21,6 +22,7 @@ func (t *todoHandler) InitHandler() {
 
 	routes.HandleFunc("", t.getAllTodos()).Methods(http.MethodGet)
 	routes.HandleFunc("", t.createTodo()).Methods(http.MethodPost)
+	routes.HandleFunc("/{id}", t.getTodoByID()).Methods(http.MethodGet)
 }
 
 func ProvideTodoHandler(r *mux.Router, ts TodoService) *todoHandler {
@@ -52,5 +54,25 @@ func (t *todoHandler) createTodo() http.HandlerFunc {
 		}
 		t.ts.CreateNewData(r.Context(), &data)
 		utils.NewSuccessResponsWriter(w, http.StatusCreated, "SUCCESS", data.ID)
+	}
+}
+
+func (t *todoHandler) getTodoByID() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		queryVar := mux.Vars(r)
+		id := queryVar["id"]
+		idConv, err := strconv.ParseUint(id, 10, 64)
+		if err != nil {
+			log.Printf("[getTodoByID] failed to convert id to uint: %v", err)
+			utils.NewErrorResponse(w, err)
+			return
+		}
+		res, err := t.ts.GetTodoByID(r.Context(), idConv)
+		if err != nil {
+			log.Printf("[getTodoByID] failed to get todo by id, id : %v, err : %v", idConv, err)
+			utils.NewErrorResponse(w, err)
+			return
+		}
+		utils.NewSuccessResponsWriter(w, http.StatusOK, "SUCCESS", res)
 	}
 }
