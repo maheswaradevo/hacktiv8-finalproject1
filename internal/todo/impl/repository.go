@@ -17,6 +17,7 @@ type TodoRepository interface {
 	UpdateData(ctx context.Context, id uint64, reqData *dto.TodoRequest) (models.Todo, error)
 	CheckTodoByID(ctx context.Context, id uint64) (bool, error)
 	CheckTodo(ctx context.Context) (bool, error)
+	DeleteData(ctx context.Context, id uint64) (models.Todos, error)
 }
 
 type TodoRepositoryImpl struct {
@@ -35,22 +36,25 @@ func (t TodoRepositoryImpl) GetAllData(ctx context.Context) (models.Todos, error
 		log.Printf("[GetAllData] failed writing to JSON: %v", err)
 		return nil, err
 	}
-	return models.TodoList, nil
+	return *models.TodoList, nil
 }
 
 func (t TodoRepositoryImpl) CreateNewData(ctx context.Context, reqData *dto.TodoRequest) error {
-	models.TodoList = append(models.TodoList, (*models.Todo)(reqData))
+	todos := *models.TodoList
+
+	todos = append(todos, (*models.Todo)(reqData))
 	err := utils.WriteToJSON(models.TodoList, t.filename)
 	if err != nil {
 		log.Printf("[CreateNewData] failed to writing to JSON: %v", err)
 		return err
 	}
+	models.TodoList = &todos
 	return nil
 }
 
 func (t TodoRepositoryImpl) GetTodoByID(ctx context.Context, id uint64) (models.Todo, error) {
 	var todoByID models.Todo
-	for _, todo := range models.TodoList {
+	for _, todo := range *models.TodoList {
 		if todo.ID == id {
 			todoByID = *todo
 		}
@@ -64,7 +68,7 @@ func (t TodoRepositoryImpl) GetTodoByID(ctx context.Context, id uint64) (models.
 }
 
 func (t TodoRepositoryImpl) CheckTodoByID(ctx context.Context, id uint64) (bool, error) {
-	for _, todo := range models.TodoList {
+	for _, todo := range *models.TodoList {
 		if todo.ID == id {
 			return true, nil
 		}
@@ -74,7 +78,7 @@ func (t TodoRepositoryImpl) CheckTodoByID(ctx context.Context, id uint64) (bool,
 }
 
 func (t TodoRepositoryImpl) CheckTodo(ctx context.Context) (bool, error) {
-	for _, todo := range models.TodoList {
+	for _, todo := range *models.TodoList {
 		if todo.ID != 0 {
 			return true, nil
 		}
@@ -85,7 +89,7 @@ func (t TodoRepositoryImpl) CheckTodo(ctx context.Context) (bool, error) {
 
 func (t TodoRepositoryImpl) UpdateData(ctx context.Context, id uint64, reqData *dto.TodoRequest) (models.Todo, error) {
 	var todoByID models.Todo
-	for _, todo := range models.TodoList {
+	for _, todo := range *models.TodoList {
 		if todo.ID == id {
 			todoByID = *reqData.ToEntity()
 			todoByID.ID = id
@@ -101,4 +105,19 @@ func (t TodoRepositoryImpl) UpdateData(ctx context.Context, id uint64, reqData *
 		return models.Todo{}, err
 	}
 	return todoByID, nil
+}
+
+func (t TodoRepositoryImpl) DeleteData(ctx context.Context, id uint64) (models.Todos, error) {
+	todos := *models.TodoList
+
+	idx := id - 1
+
+	todosModify := append(todos[:idx], todos[idx+1:]...)
+
+	err := utils.WriteToJSON(models.TodoList, t.filename)
+	if err != nil {
+		log.Printf("[DeleteData] failed to writing to JSON: %v", err)
+	}
+	models.TodoList = &todosModify
+	return todosModify, nil
 }

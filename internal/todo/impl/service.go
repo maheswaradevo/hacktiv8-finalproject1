@@ -33,8 +33,8 @@ func (t TodoServiceImpl) GetAllData(ctx context.Context) (*dto.TodoResponses, er
 }
 
 func (t TodoServiceImpl) CreateNewData(ctx context.Context, data *dto.TodoRequest) error {
-	for idx := 0; idx < len(models.TodoList); idx++ {
-		if data.ID == models.TodoList[idx].ID {
+	for idx := 0; idx < len(*models.TodoList); idx++ {
+		if data.ID == (*models.TodoList)[idx].ID {
 			data.ID = data.ID + 1
 		}
 	}
@@ -74,4 +74,25 @@ func (t TodoServiceImpl) UpdateData(ctx context.Context, id uint64, data *dto.To
 	}
 
 	return dto.UpdateTodoResponses(res), nil
+}
+
+func (t TodoServiceImpl) DeleteData(ctx context.Context, id uint64) (*dto.TodoResponses, error) {
+	check, err := t.repo.CheckTodoByID(ctx, id)
+	if err != nil {
+		log.Printf("[deleteTodoByID] an error occured while checking orders, err => %v, id => %v", err, id)
+		return nil, err
+	}
+	if !check {
+		log.Printf("[deleteTodoByID] theres is no orders data, err => %v", err)
+		return nil, err
+	}
+
+	res, err := t.repo.DeleteData(ctx, id)
+	if err != nil {
+		log.Printf("[deleteTodoByID] an error occured while deleting orders, err => %v, id => %v", err, id)
+		return nil, err
+	}
+
+	response := dto.CreateDeleteTodoResponses(res)
+	return response, nil
 }

@@ -50,3 +50,23 @@ func UpdateTodoResponses(t models.Todo) *TodoResponse {
 		Priority:  t.Priority,
 	}
 }
+
+func DeleteTodoResponses(t models.Todo) TodoResponse {
+	return TodoResponse{
+		ID:        t.ID,
+		Title:     t.Title,
+		Details:   t.Details,
+		Completed: t.Completed,
+		Priority:  t.Priority,
+	}
+}
+
+func CreateDeleteTodoResponses(t models.Todos) *TodoResponses {
+	var todoResponses TodoResponses
+
+	for _, idx := range t {
+		todo := DeleteTodoResponses(*idx)
+		todoResponses = append(todoResponses, todo)
+	}
+	return &todoResponses
+}
