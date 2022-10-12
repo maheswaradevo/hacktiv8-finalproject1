@@ -12,6 +12,7 @@ type TodoService interface {
 	CreateNewData(ctx context.Context, data *dto.TodoRequest) error
 	GetTodoByID(ctx context.Context, id uint64) (*dto.TodoResponse, error)
 	UpdateData(ctx context.Context, id uint64, data *dto.TodoRequest) (*dto.TodoResponse, error)
+	DeleteData(ctx context.Context, id uint64) (*dto.TodoResponses, error)
 }
 
 func ProvideTodoService(filename string) TodoService {

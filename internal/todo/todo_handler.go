@@ -24,6 +24,7 @@ func (t *todoHandler) InitHandler() {
 	routes.HandleFunc("", t.createTodo()).Methods(http.MethodPost)
 	routes.HandleFunc("/{id}", t.getTodoByID()).Methods(http.MethodGet)
 	routes.HandleFunc("/{id}", t.updateTodo()).Methods(http.MethodPut)
+	routes.HandleFunc("/{id}", t.deleteTodo()).Methods(http.MethodDelete)
 }
 
 func ProvideTodoHandler(r *mux.Router, ts TodoService) *todoHandler {
@@ -98,6 +99,26 @@ func (t *todoHandler) updateTodo() http.HandlerFunc {
 		res, err := t.ts.UpdateData(r.Context(), idConv, &data)
 		if err != nil {
 			log.Printf("[getTodoByID] failed to get todo by id, id : %v, err : %v", idConv, err)
+			utils.NewErrorResponse(w, err)
+			return
+		}
+		utils.NewSuccessResponsWriter(w, http.StatusOK, "SUCCESS", res)
+	}
+}
+
+func (t *todoHandler) deleteTodo() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		queryVar := mux.Vars(r)
+		id := queryVar["id"]
+		idConv, err := strconv.ParseUint(id, 10, 64)
+		if err != nil {
+			log.Printf("[deleteTodoByID] failed to convert id to uint: %v", err)
+			utils.NewErrorResponse(w, err)
+			return
+		}
+		res, err := t.ts.DeleteData(r.Context(), idConv)
+		if err != nil {
+			log.Printf("[deleteTodoByID] failed to delete the order by id, err => %v, id => %v", err, idConv)
 			utils.NewErrorResponse(w, err)
 			return
 		}
