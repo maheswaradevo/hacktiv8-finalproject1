@@ -34,6 +34,14 @@ func ProvideTodoHandler(r *mux.Router, ts TodoService) *todoHandler {
 	}
 }
 
+// GetAllTodos godoc
+// @Summary Get details of all todos
+// @Description Get Details of all todos, includes it's ID, Title, Description, Completed, and Priority
+// @Tags todos
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.TodoResponses
+// @Router /api/v1/todo [get]
 func (t *todoHandler) getAllTodos() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		res, err := t.ts.GetAllData(r.Context())
@@ -45,6 +53,15 @@ func (t *todoHandler) getAllTodos() http.HandlerFunc {
 	}
 }
 
+// CreateTodo godoc
+// @Summary Create a new todo
+// @Description Create a new todo with JSON input in the request body
+// @Tags todos
+// @Accept json
+// @Produce json
+// @Param data body dto.TodoRequest true "Create Todo"
+// @Success 201 {object} dto.TodoResponse
+// @Router /api/v1/todo [post]
 func (t *todoHandler) createTodo() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := dto.TodoRequest{}
@@ -59,6 +76,14 @@ func (t *todoHandler) createTodo() http.HandlerFunc {
 	}
 }
 
+// GetTodoByID 			godoc
+// @Summary 			Get a todo by its ID
+// @Description 		Get a todo with the property by its ID
+// @Tags 				todos
+// @Produce 			json
+// @Param 				id path string true "Todo ID"
+// @Success 			200 {object} dto.TodoResponse
+// @Router 				/api/v1/todo/{id} [get]
 func (t *todoHandler) getTodoByID() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		queryVar := mux.Vars(r)
@@ -79,6 +104,16 @@ func (t *todoHandler) getTodoByID() http.HandlerFunc {
 	}
 }
 
+// UpdateTodo godoc
+// @Summary Update a todo
+// @Description Updates all todo property
+// @Tags todos
+// @Accept json
+// @Produce json
+// @Param data body dto.TodoRequest true "Update Todo"
+// @Param id path string true "Todo ID"
+// @Success 201 {object} dto.TodoResponse
+// @Router /api/v1/todo/{id} [put]
 func (t *todoHandler) updateTodo() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := dto.TodoRequest{}
@@ -106,6 +141,14 @@ func (t *todoHandler) updateTodo() http.HandlerFunc {
 	}
 }
 
+// DeleteTodo godoc
+// @Summary Delete a todo
+// @Description Delete a todo and it's property by ID
+// @Tags todos
+// @Produce json
+// @Param id path int true "Todo ID"
+// @Success 200 {object} dto.TodoResponses
+// @Router /api/v1/todo/{id} [delete]
 func (t *todoHandler) deleteTodo() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		queryVar := mux.Vars(r)

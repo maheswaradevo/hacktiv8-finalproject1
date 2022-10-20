@@ -1,0 +1,146 @@
+basePath: /
+definitions:
+  dto.TodoRequest:
+    properties:
+      completed:
+        type: boolean
+      details:
+        type: string
+      id:
+        type: integer
+      priority:
+        type: integer
+      title:
+        type: string
+    type: object
+  dto.TodoResponse:
+    properties:
+      completed:
+        type: boolean
+      details:
+        type: string
+      id:
+        type: integer
+      priority:
+        type: integer
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: soberkoder@swagger.io
+    name: API Support
+  description: This is an API to managing our Todo List
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/license/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Todo API
+  version: "1.0"
+paths:
+  /api/v1/todo:
+    get:
+      consumes:
+      - application/json
+      description: Get Details of all todos, includes it's ID, Title, Description,
+        Completed, and Priority
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TodoResponse'
+            type: array
+      summary: Get details of all todos
+      tags:
+      - todos
+    post:
+      consumes:
+      - application/json
+      description: Create a new todo with JSON input in the request body
+      parameters:
+      - description: Create Todo
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TodoResponse'
+      summary: Create a new todo
+      tags:
+      - todos
+  /api/v1/todo/{id}:
+    delete:
+      description: Delete a todo and it's property by ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TodoResponse'
+            type: array
+      summary: Delete a todo
+      tags:
+      - todos
+    get:
+      description: Get a todo with the property by its ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TodoResponse'
+      summary: Get a todo by its ID
+      tags:
+      - todos
+    put:
+      consumes:
+      - application/json
+      description: Updates all todo property
+      parameters:
+      - description: Update Todo
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TodoRequest'
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TodoResponse'
+      summary: Update a todo
+      tags:
+      - todos
+swagger: "2.0"
