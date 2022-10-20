@@ -14,7 +14,7 @@ type TodoResponses []TodoResponse
 func CreateTodoResponse(t models.Todo) TodoResponse {
 	return TodoResponse{
 		ID:        t.ID,
-		Title:     t.Details,
+		Title:     t.Title,
 		Details:   t.Details,
 		Completed: t.Completed,
 		Priority:  t.Priority,
