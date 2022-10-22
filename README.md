@@ -1,6 +1,6 @@
 # Todo API
 
-This repository exists to fulfill Hacktiv8 Final Project 1.
+This repository exists to fulfill Hacktiv8 Final Project 1. Deployed on Heroku `https://todos-api-go.herokuapp.com/`
 
 ## How To Run
 
