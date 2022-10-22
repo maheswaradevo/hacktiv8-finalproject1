@@ -26,7 +26,7 @@ definitions:
       title:
         type: string
     type: object
-host: localhost:8080
+host: https://todos-api-go.herokuapp.com/
 info:
   contact:
     email: soberkoder@swagger.io

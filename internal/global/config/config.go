@@ -10,6 +10,7 @@ import (
 type Config struct {
 	PORT          string
 	ServerAddress string
+	WhiteListed   string
 }
 
 var config Config
@@ -22,6 +23,7 @@ func Init() {
 
 	config.ServerAddress = os.Getenv("SERVER_ADDRESS")
 	config.PORT = os.Getenv("PORT")
+	config.WhiteListed = os.Getenv("WHITELISTED_URLS")
 }
 
 func GetConfig() *Config {
