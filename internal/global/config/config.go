@@ -8,8 +8,8 @@ import (
 )
 
 type Config struct {
-	ServerAddress string
-	Database      Database
+	PORT     string
+	Database Database
 }
 
 type Database struct {
@@ -28,7 +28,7 @@ func Init() {
 		log.Printf("ERROR .env Not found")
 	}
 
-	config.ServerAddress = os.Getenv("SERVER_ADDRESS")
+	config.PORT = os.Getenv("PORT")
 	config.Database.Username = os.Getenv("DB_USERNAME")
 	config.Database.Password = os.Getenv("DB_PASSWORD")
 	config.Database.Address = os.Getenv("DB_ADDRESS")
