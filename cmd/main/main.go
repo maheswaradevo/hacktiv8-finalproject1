@@ -30,7 +30,7 @@ func main() {
 	filename := "db/data.json"
 	router.Init(root, filename)
 	root.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
-	serverAddress := fmt.Sprintf("%s:%s", "0.0.0.0", cfg.ServerAddress)
+	serverAddress := fmt.Sprintf(":%s", cfg.ServerAddress)
 	s := server.ProvideServer(serverAddress, root)
 	s.ListenAndServe()
 }
