@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	PORT string
+	PORT          string
+	ServerAddress string
 }
 
 var config Config
@@ -19,6 +20,7 @@ func Init() {
 		log.Printf("ERROR .env Not found")
 	}
 
+	config.ServerAddress = os.Getenv("SERVER_ADDRESS")
 	config.PORT = os.Getenv("PORT")
 }
 
