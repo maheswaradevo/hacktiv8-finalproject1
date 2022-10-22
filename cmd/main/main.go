@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gorilla/mux"
 	_ "github.com/maheswaradevo/hacktiv8-finalproject1/docs"
 	"github.com/maheswaradevo/hacktiv8-finalproject1/internal/global/config"
@@ -24,10 +26,12 @@ func main() {
 	config.Init()
 	cfg := config.GetConfig()
 	root := mux.NewRouter()
-
 	filename := "db/data.json"
+
 	router.Init(root, filename)
 	root.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
-	s := server.ProvideServer(cfg.ServerAddress, root)
+
+	port := fmt.Sprintf("%s:%s", "0.0.0.0", cfg.PORT)
+	s := server.ProvideServer(port, root)
 	s.ListenAndServe()
 }
