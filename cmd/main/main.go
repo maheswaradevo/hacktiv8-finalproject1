@@ -38,7 +38,7 @@ func initializeGlobalRouter(whitelisted string) *mux.Router {
 // @contact.email soberkoder@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/license/LICENSE-2.0.html
-// @host https://todos-api-go.herokuapp.com/
+// @host https://todos-api-go.herokuapp.com
 // @BasePath /
 func main() {
 	config.Init()
