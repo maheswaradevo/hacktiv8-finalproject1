@@ -1,1 +1,1 @@
-web: bin/fp-1
+web:bin/fp-1
