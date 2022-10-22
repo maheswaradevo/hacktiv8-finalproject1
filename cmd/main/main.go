@@ -30,6 +30,7 @@ func main() {
 	filename := "db/data.json"
 	router.Init(root, filename)
 	root.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
+
 	port := fmt.Sprintf(":%s", cfg.PORT)
 	s := server.ProvideServer(port, root)
 	s.ListenAndServe()
