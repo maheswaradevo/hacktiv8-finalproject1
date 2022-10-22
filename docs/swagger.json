@@ -14,7 +14,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://todos-api-go.herokuapp.com/",
+    "host": "todos-api-go.herokuapp.com",
     "basePath": "/",
     "paths": {
         "/api/v1/todo": {
