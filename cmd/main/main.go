@@ -22,7 +22,6 @@ func initializeGlobalRouter(whitelisted string) *mux.Router {
 		log.Printf(arrayWhiteListedUrls[idx])
 	}
 	whiteListedUrls := make(map[string]bool)
-
 	for _, v := range arrayWhiteListedUrls {
 		whiteListedUrls[v] = true
 	}
@@ -38,7 +37,7 @@ func initializeGlobalRouter(whitelisted string) *mux.Router {
 // @contact.email soberkoder@swagger.io
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/license/LICENSE-2.0.html
-// @host https://todos-api-go.herokuapp.com
+// @host todos-api-go.herokuapp.com
 // @BasePath /
 func main() {
 	config.Init()
