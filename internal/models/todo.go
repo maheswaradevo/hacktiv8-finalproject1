@@ -11,4 +11,12 @@ type Todo struct {
 
 type Todos []*Todo
 
-var TodoList = &Todos{}
+var TodoList = &Todos{
+	&Todo{
+		ID:        1,
+		Title:     "Develop Website",
+		Details:   "Develop backend for company A",
+		Completed: false,
+		Priority:  1,
+	},
+}
