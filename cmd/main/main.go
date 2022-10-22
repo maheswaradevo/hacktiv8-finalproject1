@@ -31,7 +31,7 @@ func main() {
 	router.Init(root, filename)
 	root.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 
-	port := fmt.Sprintf(":%s", cfg.PORT)
+	port := fmt.Sprintf("%s:%s", "0.0.0.0", cfg.PORT)
 	s := server.ProvideServer(port, root)
 	s.ListenAndServe()
 }
