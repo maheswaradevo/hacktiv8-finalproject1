@@ -26,8 +26,8 @@ func main() {
 	config.Init()
 	cfg := config.GetConfig()
 	root := mux.NewRouter()
-
 	filename := "db/data.json"
+
 	router.Init(root, filename)
 	root.PathPrefix("/swagger").Handler(httpSwagger.WrapHandler)
 
